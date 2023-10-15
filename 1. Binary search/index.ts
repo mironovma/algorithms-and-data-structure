@@ -52,9 +52,20 @@ const binarySearch = (arr: number[], value: number) => {
   return { value: -1, attempt };
 };
 
+const linearSearch = (arr: number[], value: number) => {
+  let attempt = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (value === i) {
+      return { value: --i, attempt };
+    }
+    attempt += 1;
+  }
+};
+
 const arrayNumber = Array(10000)
   .fill(1)
   .map((_, index) => ++index);
 
-// { искомое число, кол-во итераций поиска }
+// { индекс искомого числа, кол-во итераций поиска }
 console.log(binarySearch(arrayNumber, 1452));
+console.log(linearSearch(arrayNumber, 1452));
