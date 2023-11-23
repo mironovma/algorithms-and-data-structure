@@ -5,7 +5,7 @@
 const binarySearch = (arr: number[], value: number) => {
   // Указываем начальную точку и конечную.
   let start = 0;
-  let end = arr.length - 1;
+  let end = arr.length;
 
   /**
    * Зададим переменную, в которую будут записываться
