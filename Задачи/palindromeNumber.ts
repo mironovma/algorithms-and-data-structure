@@ -20,12 +20,7 @@ const isPalindromeSimple = function (x: number) {
   return +String(x).split("").reverse().join("") === x;
 };
 
-console.log(isPalindromeSimple(121));
-console.log(isPalindromeSimple(120));
-console.log(isPalindromeSimple(-120));
-console.log(isPalindromeSimple(10));
-
-const isPalindrome = function (x: number) {
+const isPalindrome = (x: number) => {
   /**
    * Сразу выполняем проверку на отрицательные числа.
    * Любые отрицательные числа не будут являться палиндромом.
@@ -46,9 +41,11 @@ const isPalindrome = function (x: number) {
   let original = x;
 
   /**
-   * Запускаем while до тех пор, пока original больше 0
+   * Запускаем while до тех пор, пока original больше reversed.
+   * Остановимся на цикле, когда original станет меньше reversed.
+   * Если число является палиндромом, то быть больше original быть не может.
    */
-  while (original > 0) {
+  while (original > reversed) {
     /**
      * Умножаем reversed на 10 и прибавляем остаток от деления original.
      * Т.е. здесь мы "сдвигаем цифры" reversed на одну позицию влево и
@@ -69,8 +66,7 @@ const isPalindrome = function (x: number) {
      * 2 итерация цикла:
      * rev = 1 * 10 + 12 % 10 = 10 + 2 = 12;
      * ori = 12 / 10 = 1;
-     * 3 итерация цикла:
-     * rev = 12 * 10 + 1 % 10 = 120 + 1 = 121.
+     * и т.д.
      */
   }
   /**
@@ -83,11 +79,35 @@ const isPalindrome = function (x: number) {
    * мы получаем перевернутое число reversed.
    *
    * Далее просто сравниваем перевернутое число с исходным x.
+   *
+   * Второе условие ИЛИ проверяет тот случай, когда исходное число x имеет нечетное количество цифр.
+   * В процессе переворачивания числа, мы удаляем последнюю цифру из original и добавляем
+   * ее в конец reversed. Когда число original станет меньше или равным reversed, это означает, что мы перевернули половину числа.
+   *
+   * Напр., если x = 12321:
+   * 1 итерация цикла:
+   * original = 1232, reversed = 1;
+   * 2 итерация цикла:
+   * original = 123, reversed = 12;
+   * 3итерация цикла:
+   * original = 12, reversed = 123;
+   *
+   * Мы перевернули первую половину числа, но осталась середина (цифра 3) в original.
+   * Если длина числа x нечетная, то средняя цифра остается на своем месте и
+   * не имеет значения для проверки палиндромности.
+   * Поэтому мы можем исключить эту среднюю цифру из reversed
+   * с помощью операции Math.floor(reversed / 10).
+   *
+   * Таким образом условия x === Math.floor(reversed / 10) проверяет, равни ли x и reversed
+   * (для чисел с нечетным кол-вом цифр), и возвращает true, если число является палиндромом.
+   *
+   * Если бы такого условия не было, то числа с нечетным кол-ом цифр не было бы распознано как палиндром.
    */
 
-  return x === reversed;
+  return x === reversed || x === Math.floor(reversed / 10);
 };
 
 console.log(isPalindrome(121));
+console.log(isPalindrome(12321));
 console.log(isPalindrome(120));
 console.log(isPalindrome(-120));
